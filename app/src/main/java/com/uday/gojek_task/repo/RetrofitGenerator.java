@@ -21,18 +21,18 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetofitGenerator  {
+public class RetrofitGenerator {
 
-    private static final String TAG = "RetofitGenerator";
+    private static final String TAG = "RetrofitGenerator";
     private static final String BASE_URL = "https://github-trending-api.now.sh/";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
 
-    private static RetofitGenerator instance;
+    private static RetrofitGenerator instance;
 
-    public static RetofitGenerator getInstance(){
+    public static RetrofitGenerator getInstance(){
         if(instance == null){
-            instance = new RetofitGenerator();
+            instance = new RetrofitGenerator();
         }
         return instance;
     }
