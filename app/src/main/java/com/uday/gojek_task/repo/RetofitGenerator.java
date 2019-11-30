@@ -5,6 +5,8 @@ import android.util.Log;
 import com.uday.gojek_task.NetworkDetection;
 import com.uday.gojek_task.interfaces.Api;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetofitGenerator  {
 
     private static final String TAG = "RetofitGenerator";
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
+    private static final String BASE_URL = "https://github-trending-api.now.sh/";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
 
@@ -35,7 +37,7 @@ public class RetofitGenerator  {
         return instance;
     }
 
-    private static final long cacheSize = 5 * 1024 * 1024; // 5 MB
+    private static final long cacheSize = 5 * 1024 * 1024;
 
 
     private static Retrofit retrofit(){
@@ -49,8 +51,8 @@ public class RetofitGenerator  {
     private static OkHttpClient okHttpClient(){
         return new OkHttpClient.Builder()
                 .cache(cache())
-                .addInterceptor(httpLoggingInterceptor()) // used if network off OR on
-                .addNetworkInterceptor(networkInterceptor()) // only used when network is on
+                .addInterceptor(httpLoggingInterceptor())
+                .addNetworkInterceptor(networkInterceptor())
                 .addInterceptor(offlineInterceptor())
                 .build();
     }
@@ -59,21 +61,16 @@ public class RetofitGenerator  {
         return new Cache(new File(NetworkDetection.getInstance().getCacheDir(),"someIdentifier"), cacheSize);
     }
 
-    /**
-     * This interceptor will be called both if the network is available and if the network is not available
-     * @return
-     */
+
     private static Interceptor offlineInterceptor() {
         return new Interceptor() {
             @Override
-            public Response intercept(Chain chain) throws IOException {
+            public Response intercept(@NotNull Chain chain) throws IOException {
                 Log.d(TAG, "offline interceptor: called.");
                 Request request = chain.request();
-
-                // prevent caching when network is on. For that we use the "networkInterceptor"
                 if (!NetworkDetection.hasInternet()) {
                     CacheControl cacheControl = new CacheControl.Builder()
-                            .maxStale(7, TimeUnit.DAYS)
+                            .maxStale(2, TimeUnit.HOURS)
                             .build();
 
                     request = request.newBuilder()
@@ -88,14 +85,10 @@ public class RetofitGenerator  {
         };
     }
 
-    /**
-     * This interceptor will be called ONLY if the network is available
-     * @return
-     */
     private static Interceptor networkInterceptor() {
         return new Interceptor() {
             @Override
-            public Response intercept(Chain chain) throws IOException {
+            public Response intercept(@NotNull Chain chain) throws IOException {
                 Log.d(TAG, "network interceptor: called.");
 
                 Response response = chain.proceed(chain.request());
@@ -119,7 +112,7 @@ public class RetofitGenerator  {
                 new HttpLoggingInterceptor( new HttpLoggingInterceptor.Logger()
                 {
                     @Override
-                    public void log (String message)
+                    public void log (@NotNull String message)
                     {
                         Log.d(TAG, "log: http log: " + message);
                     }
