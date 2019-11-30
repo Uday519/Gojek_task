@@ -48,7 +48,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
             @Override
             public void onChanged(@Nullable List<GithubTrending> githubTrendingList) {
                 trendingList = githubTrendingList;
-                initRecyclerview(trendingList);
+                if (trendingList.size() > 0 ) {
+                    initRecyclerview(trendingList);
+                }
+                else {
+                    layout_nonetwork.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -63,29 +69,32 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
                 }
             }
         });
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mViewModel.getShow_networkError().observe(this, new Observer<Boolean>() {
             @Override
-            public void onRefresh() {
-
-            }
-        });
-
-        if (!NetworkDetection.hasInternet() ) {
-            layout_nonetwork.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setVisibility(View.GONE);
-        }
-        btn_retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!NetworkDetection.hasInternet() ) {
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean ) {
                     layout_nonetwork.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.GONE);
                 }
                 else {
                     layout_nonetwork.setVisibility(View.GONE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
-                    mViewModel.retry();
                 }
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mViewModel.retry();
+            }
+        });
+
+        btn_retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout_nonetwork.setVisibility(View.GONE);
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                mViewModel.retry();
             }
         });
 

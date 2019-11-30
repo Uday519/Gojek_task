@@ -22,6 +22,8 @@ public class MainActivityViewModel extends ViewModel {
 
     public MutableLiveData<List<GithubTrending>> trendinglist ;
     public MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
+    public MutableLiveData<Boolean> show_networkError = new MutableLiveData<>();
+
     private Call<List<GithubTrending>> getlist;
 
     public LiveData<List<GithubTrending>> getTrendinglist() {
@@ -42,6 +44,7 @@ public class MainActivityViewModel extends ViewModel {
                     String error_message= t.getMessage();
                     Log.d("Error loading data", error_message);
                     showProgressBar.setValue(false);
+                    show_networkError.setValue(true);
 
                 }
             });
@@ -56,13 +59,20 @@ public class MainActivityViewModel extends ViewModel {
 
     public void retry(){
         showProgressBar.setValue(true);
-        Api api = RetrofitGenerator.getApi();
-        getlist = api.getTendingList();
+        getlist = getlist.clone();
         getlist.enqueue(new Callback<List<GithubTrending>>() {
             @Override
             public void onResponse(Call<List<GithubTrending>> call, Response<List<GithubTrending>> response) {
-                trendinglist.setValue(response.body());
-                showProgressBar.setValue(false);
+                List<GithubTrending> responseList = response.body();
+                if(responseList.size() >0){
+                    show_networkError.setValue(false);
+                    trendinglist.setValue(responseList);
+                    showProgressBar.setValue(false);
+                }
+                else{
+                    show_networkError.setValue(true);
+                }
+
             }
 
             @Override
@@ -73,5 +83,9 @@ public class MainActivityViewModel extends ViewModel {
 
             }
         });
+    }
+
+    public MutableLiveData<Boolean> getShow_networkError() {
+        return show_networkError;
     }
 }
