@@ -8,24 +8,36 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:layout_margin="6dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <android.support.v4.widget.CircleImageView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/author_avatar"
                 android:src="@drawable/octicons_repo"/>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@+id/author_avatar"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
+                android:padding="10dp"
                 android:layout_centerVertical="true"
+                android:id="@+id/author_name"
                 tools:text="uday/bhaskar"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/current_period_stars"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:padding="10dp"
+                android:textAlignment="textStart"
+                tools:text="50 Stars"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
