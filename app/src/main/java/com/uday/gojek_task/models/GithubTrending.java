@@ -1,5 +1,7 @@
 package com.uday.gojek_task.models;
 
+import java.util.List;
+
 public class GithubTrending {
 
     public String author;
@@ -12,9 +14,9 @@ public class GithubTrending {
     public String stars;
     public String forks;
     public String currentPeriodStars;
-    public GithubBuiltBy builtBy;
+    public List<GithubBuiltBy> builtBy;
 
-    public GithubTrending(String author, String name, String avatar, String url, String description, String language, String languageColor, String stars, String forks, String currentPeriodStars, GithubBuiltBy builtBy) {
+    public GithubTrending(String author, String name, String avatar, String url, String description, String language, String languageColor, String stars, String forks, String currentPeriodStars, List<GithubBuiltBy> builtBy) {
         this.author = author;
         this.name = name;
         this.avatar = avatar;
@@ -111,11 +113,11 @@ public class GithubTrending {
         this.currentPeriodStars = currentPeriodStars;
     }
 
-    public GithubBuiltBy getBuiltBy() {
+    public List<GithubBuiltBy> getBuiltBy() {
         return builtBy;
     }
 
-    public void setBuiltBy(GithubBuiltBy builtBy) {
+    public void setBuiltBy(List<GithubBuiltBy> builtBy) {
         this.builtBy = builtBy;
     }
 }

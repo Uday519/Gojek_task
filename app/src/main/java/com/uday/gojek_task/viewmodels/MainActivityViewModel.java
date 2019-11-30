@@ -20,25 +20,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivityViewModel extends ViewModel {
 
-    public MutableLiveData<GithubTrendingList> trendinglist ;
+    public MutableLiveData<List<GithubTrending>> trendinglist ;
     public MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
+    private Call<List<GithubTrending>> getlist;
 
-
-    public MutableLiveData<GithubTrendingList> getTrendinglist() {
+    public LiveData<List<GithubTrending>> getTrendinglist() {
         if(trendinglist == null){
             showProgressBar.setValue(true);
             trendinglist = new MutableLiveData<>();
             Api api = RetrofitGenerator.getApi();
-            Call<GithubTrendingList> getlist = api.getTendingList();
-            getlist.enqueue(new Callback<GithubTrendingList>() {
+            getlist = api.getTendingList();
+            getlist.enqueue(new Callback<List<GithubTrending>>() {
                 @Override
-                public void onResponse(Call<GithubTrendingList> call, Response<GithubTrendingList> response) {
+                public void onResponse(Call<List<GithubTrending>> call, Response<List<GithubTrending>> response) {
                     trendinglist.setValue(response.body());
                     showProgressBar.setValue(false);
                 }
 
                 @Override
-                public void onFailure(Call<GithubTrendingList> call, Throwable t) {
+                public void onFailure(Call<List<GithubTrending>> call, Throwable t) {
                     String error_message= t.getMessage();
                     Log.d("Error loading data", error_message);
                     showProgressBar.setValue(false);
@@ -50,7 +50,28 @@ public class MainActivityViewModel extends ViewModel {
         return trendinglist;
     }
 
-    public MutableLiveData<Boolean> getShowProgressBar() {
+    public LiveData<Boolean> getShowProgressBar() {
         return showProgressBar;
+    }
+
+    public void retry(){
+        showProgressBar.setValue(true);
+        Api api = RetrofitGenerator.getApi();
+        getlist = api.getTendingList();
+        getlist.enqueue(new Callback<List<GithubTrending>>() {
+            @Override
+            public void onResponse(Call<List<GithubTrending>> call, Response<List<GithubTrending>> response) {
+                trendinglist.setValue(response.body());
+                showProgressBar.setValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<GithubTrending>> call, Throwable t) {
+                String error_message= t.getMessage();
+                Log.d("Error loading data", error_message);
+                showProgressBar.setValue(false);
+
+            }
+        });
     }
 }

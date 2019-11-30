@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitGenerator {
 
     private static final String TAG = "RetrofitGenerator";
-    private static final String BASE_URL = "https://github-trending-api.now.sh/";
+    private static final String BASE_URL = "https://github-trending-api.now.sh";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
 
@@ -58,7 +58,7 @@ public class RetrofitGenerator {
     }
 
     private static Cache cache(){
-        return new Cache(new File(NetworkDetection.getInstance().getCacheDir(),"someIdentifier"), cacheSize);
+        return new Cache(new File(NetworkDetection.getInstance().getCacheDir(),"github_repo"), cacheSize);
     }
 
 
@@ -66,9 +66,10 @@ public class RetrofitGenerator {
         return new Interceptor() {
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
-                Log.d(TAG, "offline interceptor: called.");
                 Request request = chain.request();
-                if (!NetworkDetection.hasInternet()) {
+                int timeoutMillis = chain.readTimeoutMillis();
+                if (!NetworkDetection.hasInternet() ) {
+                    Log.d(TAG, "offline interceptor: called.");
                     CacheControl cacheControl = new CacheControl.Builder()
                             .maxStale(2, TimeUnit.HOURS)
                             .build();
@@ -94,7 +95,7 @@ public class RetrofitGenerator {
                 Response response = chain.proceed(chain.request());
 
                 CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(5, TimeUnit.SECONDS)
+                        .maxAge(10, TimeUnit.SECONDS)
                         .build();
 
                 return response.newBuilder()

@@ -8,7 +8,9 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_to_refresh"
+        android:visibility="visible">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -52,5 +54,29 @@
 
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_network"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/no_internet_message"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="Something went wrong please try again"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/no_internet_message"
+            android:text="Retry"
+            android:id="@+id/retry"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"/>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

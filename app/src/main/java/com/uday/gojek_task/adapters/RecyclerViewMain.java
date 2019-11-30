@@ -42,12 +42,12 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int i) {
         recyclerViewHolder.author_name.setText(trendingList.get(i).getAuthor()+" / "+trendingList.get(i).getName());
-        recyclerViewHolder.current_period_stars.setText(trendingList.get(i).getCurrentPeriodStars());
+        recyclerViewHolder.current_period_stars.setText(trendingList.get(i).getCurrentPeriodStars()+ " stars");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return trendingList.size();
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
