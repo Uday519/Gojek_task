@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
             public void onChanged(@Nullable List<GithubTrending> githubTrendingList) {
                 trendingList = githubTrendingList;
                 if (trendingList.size() > 0 ) {
+                    swipeRefreshLayout.setRefreshing(false);
                     initRecyclerview(trendingList);
                 }
                 else {

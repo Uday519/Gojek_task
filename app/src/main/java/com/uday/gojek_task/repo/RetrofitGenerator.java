@@ -71,7 +71,7 @@ public class RetrofitGenerator {
                 if (!NetworkDetection.hasInternet() ) {
                     Log.d(TAG, "offline interceptor: called.");
                     CacheControl cacheControl = new CacheControl.Builder()
-                            .maxStale(2, TimeUnit.HOURS)
+                            .maxStale(1, TimeUnit.MINUTES)
                             .build();
 
                     request = request.newBuilder()

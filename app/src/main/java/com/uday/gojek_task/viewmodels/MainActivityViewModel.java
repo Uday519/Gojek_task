@@ -80,6 +80,7 @@ public class MainActivityViewModel extends ViewModel {
                 String error_message= t.getMessage();
                 Log.d("Error loading data", error_message);
                 showProgressBar.setValue(false);
+                show_networkError.setValue(true);
 
             }
         });
