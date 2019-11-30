@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.uday.gojek_task.R;
 import com.uday.gojek_task.models.GithubTrending;
 
@@ -41,8 +42,9 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int i) {
-        recyclerViewHolder.author_name.setText(trendingList.get(i).getAuthor()+" / "+trendingList.get(i).getName());
-        recyclerViewHolder.current_period_stars.setText(trendingList.get(i).getCurrentPeriodStars()+ " stars");
+        recyclerViewHolder.author_name.setText(trendingList.get(i).getAuthor());
+        recyclerViewHolder.description.setText(trendingList.get(i).getName());
+        Picasso.with(context).load(trendingList.get(i).getAvatar()).fit().into(recyclerViewHolder.avatar);
     }
 
     @Override
@@ -52,7 +54,8 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView author_name;
-        TextView current_period_stars;
+        TextView description;
+        ImageView avatar;
 //        TextView employee_category_id;
 //        TextView employee_category;
 //        TextView employee_address;
@@ -65,8 +68,10 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
 
         public RecyclerViewHolder(@NonNull View itemView, OnRowClick onEmployeeListner) {
             super(itemView);
-            this.author_name = itemView.findViewById(R.id.author_name);
-            this.current_period_stars = itemView.findViewById(R.id.current_period_stars);
+            this.author_name = itemView.findViewById(R.id.github_author);
+            this.description = itemView.findViewById(R.id.github_description);
+            this.avatar = itemView.findViewById(R.id.github_avatar);
+
 //            this.employee_category_id = itemView.findViewById(R.id.employee_category_id);
 //            this.employee_category = itemView.findViewById(R.id.employee_category);
 //            this.employee_address = itemView.findViewById(R.id.employee_address);

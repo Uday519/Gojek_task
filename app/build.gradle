@@ -37,8 +37,7 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:1.1.1"
     implementation "com.squareup.okhttp3:okhttp:3.11.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
-
-
+    implementation "de.hdodenhof:circleimageview:3.0.1"
 
 
 }

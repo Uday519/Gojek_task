@@ -2,46 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="5dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="3dp">
+        android:layout_height="60dp">
 
-        <RelativeLayout
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/github_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/github_author"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/author_avatar"
-                android:src="@drawable/octicons_repo"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/author_avatar"
-                android:layout_toStartOf="@+id/current_period_stars"
-                android:textSize="15sp"
-                android:layout_centerVertical="true"
-                android:id="@+id/author_name"
-                android:paddingTop="15dp"
-                android:paddingLeft="10dp"
-                android:textColor="@color/black"
-                tools:text="uday/bhaskar"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/current_period_stars"
-                android:textSize="15sp"
-                android:paddingTop="15dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/black"
-                android:textAlignment="textStart"
-                tools:text="50 Stars"/>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/github_avatar"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/github_author"
+            android:layout_toEndOf="@+id/github_avatar"
+            android:id="@+id/github_description"
+            android:layout_marginStart="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>
