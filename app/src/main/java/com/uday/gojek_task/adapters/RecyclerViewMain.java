@@ -1,30 +1,15 @@
 package com.uday.gojek_task.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Downloader;
-import com.squareup.picasso.LruCache;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Request;
-import com.uday.gojek_task.PicassoCache;
 import com.uday.gojek_task.R;
 import com.uday.gojek_task.models.GithubTrending;
 
@@ -57,49 +42,15 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int i) {
-        recyclerViewHolder.author_name.setText(trendingList.get(i).getAuthor());
-        recyclerViewHolder.description.setText(trendingList.get(i).getName());
-        String imageUrl = trendingList.get(i).getAvatar();
-        ImageView imageView = recyclerViewHolder.avatar;
-//        ImageLoader imageLoader = ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context.getApplicationInfo()));
-//        imageLoader.displayImage(imageUrl, imageView);
-
-
-//        Picasso.with(context).load(imageUrl)
-//                .fit()
-//                .centerCrop()
-//                .into(imageView,
-//                        new PicassoCache(imageView, context)
-//                );
+        recyclerViewHolder.author.setText(trendingList.get(i).getAuthor());
+        recyclerViewHolder.description.setText(trendingList.get(i).getDescription());
+        recyclerViewHolder.name.setText(trendingList.get(i).getName());
+        recyclerViewHolder.languageColor.setText(trendingList.get(i).getLanguageColor());
+        recyclerViewHolder.language.setText(trendingList.get(i).getLanguage());
+        recyclerViewHolder.stars.setText(trendingList.get(i).getStars());
+        recyclerViewHolder.forks.setText(trendingList.get(i).getForks());
         Picasso.with(context).load(trendingList.get(i).getAvatar()).fit().centerCrop().into(recyclerViewHolder.avatar);
-//        PicassoCache.getPicassoInstance(context).load(trendingList.get(i).getAvatar()).fit().into(recyclerViewHolder.avatar);
-//        Picasso.with(context)
-//                .load(imageUrl)
-//                .networkPolicy(NetworkPolicy.OFFLINE)
-//                .into(recyclerViewHolder.avatar, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        int k =0;
-//                        Log.d("Picasso","bu");
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//                        //Try again online if cache failed
-//                        Picasso.with(context)
-//                                .load(imageUrl)
-//                                .into(imageView, new Callback() {
-//                                    @Override
-//                                    public void onSuccess() {
-//                                    }
-//
-//                                    @Override
-//                                    public void onError() {
-//                                        Log.v("Picasso","Could not fetch image");
-//                                    }
-//                                });
-//                    }
-//                });
+
     }
 
     @Override
@@ -108,32 +59,28 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView author_name;
-        TextView description;
+        TextView author;
+        TextView name;
         ImageView avatar;
-//        TextView employee_category_id;
-//        TextView employee_category;
-//        TextView employee_address;
-//        TextView employee_code;
-//        TextView employee_contact;
-//        TextView employee_id_description;
-//        ImageView employee_image;
+        TextView description;
+        TextView language;
+        TextView languageColor;
+        TextView stars;
+        TextView forks;
+
 
         OnRowClick onRowClick;
 
         public RecyclerViewHolder(@NonNull View itemView, OnRowClick onEmployeeListner) {
             super(itemView);
-            this.author_name = itemView.findViewById(R.id.github_author);
+            this.author = itemView.findViewById(R.id.github_author);
             this.description = itemView.findViewById(R.id.github_description);
             this.avatar = itemView.findViewById(R.id.github_avatar);
-
-//            this.employee_category_id = itemView.findViewById(R.id.employee_category_id);
-//            this.employee_category = itemView.findViewById(R.id.employee_category);
-//            this.employee_address = itemView.findViewById(R.id.employee_address);
-//            this.employee_code = itemView.findViewById(R.id.employee_code);
-//            this.employee_contact = itemView.findViewById(R.id.employee_contact);
-//            this.employee_id_description = itemView.findViewById(R.id.employee_id_description);
-//            this.employee_image = itemView.findViewById(R.id.employee_image);
+            this.name = itemView.findViewById(R.id.github_name);
+            this.language = itemView.findViewById(R.id.language);
+            this.languageColor = itemView.findViewById(R.id.language_color);
+            this.stars = itemView.findViewById(R.id.github_stars);
+            this.forks = itemView.findViewById(R.id.forks);
 
             this.onRowClick = onEmployeeListner;
             itemView.setOnClickListener(this);

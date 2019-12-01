@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="140dp"
         android:id="@+id/retalivelayout_item">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -32,18 +32,69 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/github_author"
             android:layout_toEndOf="@+id/github_avatar"
-            android:id="@+id/github_description"
+            android:id="@+id/github_name"
             android:layout_marginStart="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
             />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/retalivelayout_item">
-        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/github_name"
+            android:layout_toEndOf="@id/github_avatar">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/github_description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:text="dhfkjhhlfksdhfkdshfkdsjhkfdskfhkds dhfkjhhlfksdhfkdshfkdsjhkfdskfhkds"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/github_description"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/language_color"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/circular_border"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    tools:text="C++"
+                    android:id="@+id/language"
+                    android:layout_marginLeft="7dp"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:id="@+id/github_stars"
+                    android:layout_marginLeft="7dp"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:id="@+id/forks"
+                    android:layout_marginLeft="7dp"/>
+            </LinearLayout>
 
+        </RelativeLayout>
     </RelativeLayout>
+
 
 </RelativeLayout>
