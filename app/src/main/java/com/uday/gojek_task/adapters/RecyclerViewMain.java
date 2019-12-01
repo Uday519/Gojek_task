@@ -77,7 +77,7 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
         RelativeLayout collapsible_layout;
         RelativeLayout parent_layout;
 
-        public RecyclerViewHolder(@NonNull View itemView) {
+        public RecyclerViewHolder(@NonNull final View itemView) {
             super(itemView);
             this.author = itemView.findViewById(R.id.github_author);
             this.description = itemView.findViewById(R.id.github_description);
@@ -94,9 +94,18 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
             this.parent_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GithubTrending githubTrending = trendingList.get(getAdapterPosition());
-                    githubTrending.setExpanded(!githubTrending.isExpanded());
-                    notifyItemChanged(getAdapterPosition());
+                    int current_position = getAdapterPosition();
+                    for(int i=0; i<trendingList.size(); i++){
+                        if(trendingList.get(i).isExpanded() && current_position != i){
+                            GithubTrending githubTrending_previous = trendingList.get(i);
+                            githubTrending_previous.setExpanded(false);
+                            notifyItemChanged(i);
+                            break;
+                        }
+                    }
+                    GithubTrending githubTrending_current = trendingList.get(current_position);
+                    githubTrending_current.setExpanded(!githubTrending_current.isExpanded());
+                    notifyItemChanged(current_position);
                 }
             });
 
