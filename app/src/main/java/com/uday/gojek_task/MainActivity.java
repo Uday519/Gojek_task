@@ -1,6 +1,5 @@
 package com.uday.gojek_task;
 
-import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
@@ -17,12 +16,11 @@ import android.widget.RelativeLayout;
 
 import com.uday.gojek_task.adapters.RecyclerViewMain;
 import com.uday.gojek_task.models.GithubTrending;
-import com.uday.gojek_task.models.GithubTrendingList;
 import com.uday.gojek_task.viewmodels.MainActivityViewModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewMain.OnRowClick {
+public class MainActivity extends AppCompatActivity {
 
     private MainActivityViewModel mViewModel;
     private RecyclerView rv;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
                 trendingList = githubTrendingList;
                 if (trendingList.size() > 0 ) {
                     swipeRefreshLayout.setRefreshing(false);
-                    initRecyclerview(trendingList);
+                    initRecycler(trendingList);
                 }
                 else {
                     layout_nonetwork.setVisibility(View.VISIBLE);
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mViewModel.retry();
+                mViewModel.retryOrRefresh();
             }
         });
 
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
             public void onClick(View v) {
                 layout_nonetwork.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                mViewModel.retry();
+                mViewModel.retryOrRefresh();
             }
         });
 
@@ -104,14 +102,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewMain.
 
     }
 
-    public void initRecyclerview(List<GithubTrending> trendingList){
+    public void initRecycler(List<GithubTrending> trendingList){
         rv.setLayoutManager(new LinearLayoutManager(this));
-        recycleAdapter = new RecyclerViewMain(trendingList,this,this);
+        recycleAdapter = new RecyclerViewMain(trendingList,this);
         rv.setAdapter(recycleAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
     }
 
-    @Override
-    public void onRowClick(int index) {
-    }
 }

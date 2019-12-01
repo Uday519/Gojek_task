@@ -30,7 +30,7 @@ public class MainActivityViewModel extends ViewModel {
         if(trendinglist == null){
             showProgressBar.setValue(true);
             trendinglist = new MutableLiveData<>();
-            Api api = RetrofitGenerator.getApi();
+            Api api = RetrofitGenerator.getApi(false);
             getlist = api.getTendingList();
             getlist.enqueue(new Callback<List<GithubTrending>>() {
                 @Override
@@ -57,9 +57,10 @@ public class MainActivityViewModel extends ViewModel {
         return showProgressBar;
     }
 
-    public void retry(){
+    public void retryOrRefresh(){
+        Api api = RetrofitGenerator.getApi(true);
         showProgressBar.setValue(true);
-        getlist = getlist.clone();
+        getlist = api.getTendingList();
         getlist.enqueue(new Callback<List<GithubTrending>>() {
             @Override
             public void onResponse(Call<List<GithubTrending>> call, Response<List<GithubTrending>> response) {

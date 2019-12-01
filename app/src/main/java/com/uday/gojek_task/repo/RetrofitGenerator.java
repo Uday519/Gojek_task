@@ -40,20 +40,20 @@ public class RetrofitGenerator {
     private static final long cacheSize = 5 * 1024 * 1024;
 
 
-    private static Retrofit retrofit(){
+    private static Retrofit retrofit(Boolean requestRefresh){
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(okHttpClient())
+                .client(okHttpClient(requestRefresh))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    private static OkHttpClient okHttpClient(){
+    private static OkHttpClient okHttpClient(Boolean requestRefresh){
         return new OkHttpClient.Builder()
                 .cache(cache())
                 .addInterceptor(httpLoggingInterceptor())
                 .addNetworkInterceptor(networkInterceptor())
-                .addInterceptor(offlineInterceptor())
+                .addInterceptor(offlineInterceptor(requestRefresh))
                 .build();
     }
 
@@ -62,22 +62,23 @@ public class RetrofitGenerator {
     }
 
 
-    private static Interceptor offlineInterceptor() {
+    private static Interceptor offlineInterceptor(final Boolean requestRefresh) {
         return new Interceptor() {
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
                 Request request = chain.request();
-                Log.d(TAG, "offline interceptor: called.");
-                CacheControl cacheControl = new CacheControl.Builder()
-                        .maxStale(1, TimeUnit.MINUTES)
-                        .build();
+                if(!requestRefresh){
+                    Log.d(TAG, "offline interceptor: called.");
+                    CacheControl cacheControl = new CacheControl.Builder()
+                            .maxStale(1, TimeUnit.MINUTES)
+                            .build();
 
-                request = request.newBuilder()
-                        .removeHeader(HEADER_PRAGMA)
-                        .removeHeader(HEADER_CACHE_CONTROL)
-                        .cacheControl(cacheControl)
-                        .build();
-
+                    request = request.newBuilder()
+                            .removeHeader(HEADER_PRAGMA)
+                            .removeHeader(HEADER_CACHE_CONTROL)
+                            .cacheControl(cacheControl)
+                            .build();
+                }
                 return chain.proceed(request);
             }
         };
@@ -119,7 +120,8 @@ public class RetrofitGenerator {
         return httpLoggingInterceptor;
     }
 
-    public static Api getApi(){
-        return retrofit().create(Api.class);
+    public static Api getApi(Boolean requestRefresh){
+        return retrofit(requestRefresh).create(Api.class);
     }
+
 }

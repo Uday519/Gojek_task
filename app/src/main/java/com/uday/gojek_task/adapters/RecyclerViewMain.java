@@ -1,12 +1,17 @@
 package com.uday.gojek_task.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -19,12 +24,10 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
     List<GithubTrending> trendingList;
     Context context;
     LayoutInflater inflater;
-    private OnRowClick onRowClick;
 
-    public RecyclerViewMain(List<GithubTrending> trendingList, Context context, OnRowClick onRowClick) {
+    public RecyclerViewMain(List<GithubTrending> trendingList, Context context) {
         this.trendingList = trendingList;
         this.context = context;
-        this.onRowClick = onRowClick;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -36,20 +39,24 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.github_trending_repo_row,viewGroup,false);
-        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, onRowClick);
+        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view);
         return recyclerViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int i) {
-        recyclerViewHolder.author.setText(trendingList.get(i).getAuthor());
-        recyclerViewHolder.description.setText(trendingList.get(i).getDescription());
-        recyclerViewHolder.name.setText(trendingList.get(i).getName());
-        recyclerViewHolder.languageColor.setText(trendingList.get(i).getLanguageColor());
-        recyclerViewHolder.language.setText(trendingList.get(i).getLanguage());
-        recyclerViewHolder.stars.setText(trendingList.get(i).getStars());
-        recyclerViewHolder.forks.setText(trendingList.get(i).getForks());
+        GradientDrawable circular_image =(GradientDrawable) recyclerViewHolder.languageColor.getBackground();
+        recyclerViewHolder.author.setText(trendingList.get(i).getAuthor() == null ? "" : trendingList.get(i).getAuthor());
+        recyclerViewHolder.description.setText(trendingList.get(i).getDescription() == null ? "" : trendingList.get(i).getDescription());
+        recyclerViewHolder.name.setText(trendingList.get(i).getName() == null ? "" : trendingList.get(i).getName());
+        circular_image.setColor(Color.parseColor(trendingList.get(i).getLanguageColor() == null ? "#ffffff" : trendingList.get(i).getLanguageColor()));
+        recyclerViewHolder.language.setText(trendingList.get(i).getLanguage() == null ? "" : trendingList.get(i).getLanguage());
+        recyclerViewHolder.stars.setText(trendingList.get(i).getStars() == null ? "" : trendingList.get(i).getStars());
+        recyclerViewHolder.forks.setText(trendingList.get(i).getForks() == null ? "" : trendingList.get(i).getForks());
         Picasso.with(context).load(trendingList.get(i).getAvatar()).fit().centerCrop().into(recyclerViewHolder.avatar);
+
+        boolean isexpanded = trendingList.get(i).isExpanded();
+        recyclerViewHolder.collapsible_layout.setVisibility(isexpanded ? View.VISIBLE : View.GONE);
 
     }
 
@@ -58,20 +65,19 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
         return trendingList.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView author;
         TextView name;
         ImageView avatar;
         TextView description;
         TextView language;
-        TextView languageColor;
+        ImageView languageColor;
         TextView stars;
         TextView forks;
+        RelativeLayout collapsible_layout;
+        RelativeLayout parent_layout;
 
-
-        OnRowClick onRowClick;
-
-        public RecyclerViewHolder(@NonNull View itemView, OnRowClick onEmployeeListner) {
+        public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             this.author = itemView.findViewById(R.id.github_author);
             this.description = itemView.findViewById(R.id.github_description);
@@ -81,19 +87,21 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
             this.languageColor = itemView.findViewById(R.id.language_color);
             this.stars = itemView.findViewById(R.id.github_stars);
             this.forks = itemView.findViewById(R.id.forks);
+            this.collapsible_layout = itemView.findViewById(R.id.collapsible_layout);
+            this.parent_layout = itemView.findViewById(R.id.retalivelayout_item);
 
-            this.onRowClick = onEmployeeListner;
-            itemView.setOnClickListener(this);
+
+            this.parent_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GithubTrending githubTrending = trendingList.get(getAdapterPosition());
+                    githubTrending.setExpanded(!githubTrending.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
+
         }
 
-        @Override
-        public void onClick(View view) {
-            onRowClick.onRowClick(getAdapterPosition());
-        }
-    }
-
-    public interface OnRowClick{
-        void onRowClick(int index);
     }
 
 }

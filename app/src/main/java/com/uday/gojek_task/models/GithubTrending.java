@@ -15,6 +15,7 @@ public class GithubTrending {
     public String forks;
     public String currentPeriodStars;
     public List<GithubBuiltBy> builtBy;
+    private boolean expanded;
 
     public GithubTrending(String author, String name, String avatar, String url, String description, String language, String languageColor, String stars, String forks, String currentPeriodStars, List<GithubBuiltBy> builtBy) {
         this.author = author;
@@ -28,9 +29,18 @@ public class GithubTrending {
         this.forks = forks;
         this.currentPeriodStars = currentPeriodStars;
         this.builtBy = builtBy;
+        this.expanded  = false;
     }
 
     public GithubTrending() {
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 
     public String getAuthor() {
