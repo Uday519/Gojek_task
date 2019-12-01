@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -18,6 +19,8 @@ import com.uday.gojek_task.adapters.RecyclerViewMain;
 import com.uday.gojek_task.models.GithubTrending;
 import com.uday.gojek_task.viewmodels.MainActivityViewModel;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -84,7 +87,11 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mViewModel.retryOrRefresh();
+                recycleAdapter.setTrendingList(new ArrayList<GithubTrending>());
+                recycleAdapter.notifyDataSetChanged();
+                File cache_dir = getApplicationContext().getCacheDir();
+                boolean deleted = deleteCache(cache_dir);
+                mViewModel.retry();
             }
         });
 
@@ -93,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 layout_nonetwork.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                mViewModel.retryOrRefresh();
+                mViewModel.retry();
             }
         });
 
@@ -107,6 +114,22 @@ public class MainActivity extends AppCompatActivity {
         recycleAdapter = new RecyclerViewMain(trendingList,this);
         rv.setAdapter(recycleAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public static boolean deleteCache(File cache_dir){
+        if(cache_dir != null && cache_dir.isDirectory()){
+            String [] child_dir = cache_dir.list();
+            for(int i=0; i<child_dir.length; i++){
+                boolean success = deleteCache(new File(cache_dir, child_dir[i]));
+                if(!success)
+                    return false;
+            }
+            return cache_dir.delete();
+        }
+        else if(cache_dir != null && cache_dir.isFile())
+            return cache_dir.delete();
+        else
+            return false;
     }
 
 }

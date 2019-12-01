@@ -10,6 +10,7 @@ import com.uday.gojek_task.models.GithubTrending;
 import com.uday.gojek_task.models.GithubTrendingList;
 import com.uday.gojek_task.repo.RetrofitGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,7 +31,7 @@ public class MainActivityViewModel extends ViewModel {
         if(trendinglist == null){
             showProgressBar.setValue(true);
             trendinglist = new MutableLiveData<>();
-            Api api = RetrofitGenerator.getApi(false);
+            Api api = RetrofitGenerator.getApi();
             getlist = api.getTendingList();
             getlist.enqueue(new Callback<List<GithubTrending>>() {
                 @Override
@@ -57,10 +58,9 @@ public class MainActivityViewModel extends ViewModel {
         return showProgressBar;
     }
 
-    public void retryOrRefresh(){
-        Api api = RetrofitGenerator.getApi(true);
+    public void retry(){
         showProgressBar.setValue(true);
-        getlist = api.getTendingList();
+        getlist = getlist.clone();
         getlist.enqueue(new Callback<List<GithubTrending>>() {
             @Override
             public void onResponse(Call<List<GithubTrending>> call, Response<List<GithubTrending>> response) {
