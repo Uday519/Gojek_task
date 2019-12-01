@@ -8,7 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:id="@+id/retalivelayout_item">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/github_avatar"
@@ -36,6 +37,13 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
             />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/retalivelayout_item">
+        
+
     </RelativeLayout>
 
 </RelativeLayout>

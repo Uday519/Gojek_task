@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Gojek_task</string>
+    <string name="something_went_wrong">Something went wrong..</string>
+    <string name="alien">An alien is probably blocking your signal.</string>
+    <string name="retry">RETRY</string>
 </resources>
