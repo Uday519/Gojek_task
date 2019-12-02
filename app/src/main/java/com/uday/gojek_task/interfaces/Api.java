@@ -1,10 +1,7 @@
 package com.uday.gojek_task.interfaces;
 
 import com.uday.gojek_task.models.GithubTrending;
-import com.uday.gojek_task.models.GithubTrendingList;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 
