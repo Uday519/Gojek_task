@@ -28,7 +28,7 @@ public class MainActivityViewModel extends ViewModel {
     private Call<List<GithubTrending>> getlist;
 
     public LiveData<List<GithubTrending>> getTrendinglist() {
-        if(trendinglist == null){
+        if(trendinglist == null || trendinglist.getValue() == null){
             showProgressBar.setValue(true);
             trendinglist = new MutableLiveData<>();
             Api api = RetrofitGenerator.getApi();
@@ -50,7 +50,9 @@ public class MainActivityViewModel extends ViewModel {
                 }
             });
         }
-
+        else {
+            trendinglist.postValue(trendinglist.getValue());
+        }
         return trendinglist;
     }
 

@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 trendingList = githubTrendingList;
                 if (trendingList.size() > 0 ) {
                     swipeRefreshLayout.setRefreshing(false);
+                    layout_nonetwork.setVisibility(View.GONE);
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
                     initRecycler(trendingList);
                 }
                 else {
@@ -100,12 +102,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 layout_nonetwork.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                mViewModel.retry();
+                mViewModel.getTrendinglist();
             }
         });
-
-
-
 
     }
 

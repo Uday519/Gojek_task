@@ -67,16 +67,18 @@ public class RetrofitGenerator {
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
                 Request request = chain.request();
-                Log.d(TAG, "offline interceptor: called.");
-                CacheControl cacheControl = new CacheControl.Builder()
-                        .maxStale(1, TimeUnit.MINUTES)
-                        .build();
+                if(!NetworkDetection.hasInternet()){
+                    Log.d(TAG, "offline interceptor: called.");
+                    CacheControl cacheControl = new CacheControl.Builder()
+                            .maxStale(2, TimeUnit.HOURS)
+                            .build();
 
-                request = request.newBuilder()
-                        .removeHeader(HEADER_PRAGMA)
-                        .removeHeader(HEADER_CACHE_CONTROL)
-                        .cacheControl(cacheControl)
-                        .build();
+                    request = request.newBuilder()
+                            .removeHeader(HEADER_PRAGMA)
+                            .removeHeader(HEADER_CACHE_CONTROL)
+                            .cacheControl(cacheControl)
+                            .build();
+                }
                 return chain.proceed(request);
             }
         };
@@ -91,7 +93,7 @@ public class RetrofitGenerator {
                 Response response = chain.proceed(chain.request());
 
                 CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(0, TimeUnit.SECONDS)
+                        .maxAge(2, TimeUnit.HOURS)
                         .build();
 
                 return response.newBuilder()

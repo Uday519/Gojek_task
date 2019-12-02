@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -62,24 +61,23 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
         final String image_url = trendingList.get(i).getAvatar();
         final ImageView image_holder = recyclerViewHolder.avatar;
         Picasso.with(context).load(Uri.parse(image_url))
+                .fit().centerCrop()
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(image_holder, new Callback() {
                     @Override
                     public void onSuccess() {
-                       int a = 10;
                     }
 
                     @Override
                     public void onError() {
-                        int k =10;
                         Picasso.with(context).load(Uri.parse(image_url))
-                                .placeholder(R.drawable.ic_launcher_background)
+                                .fit().centerCrop()
                                 .into(image_holder);
                     }
                 });
 
-        boolean isexpanded = trendingList.get(i).isExpanded();
-        recyclerViewHolder.collapsible_layout.setVisibility(isexpanded ? View.VISIBLE : View.GONE);
+        boolean is_expanded = trendingList.get(i).isExpanded();
+        recyclerViewHolder.collapsible_layout.setVisibility(is_expanded ? View.VISIBLE : View.GONE);
 
     }
 
