@@ -15,6 +15,7 @@ public class GithubTrending {
     public String forks;
     public String currentPeriodStars;
     public List<GithubBuiltBy> builtBy;
+    public Avatars image_bytes;
     private boolean expanded;
 
     public GithubTrending(String author, String name, String avatar, String url, String description, String language, String languageColor, String stars, String forks, String currentPeriodStars, List<GithubBuiltBy> builtBy) {
@@ -30,6 +31,7 @@ public class GithubTrending {
         this.currentPeriodStars = currentPeriodStars;
         this.builtBy = builtBy;
         this.expanded  = false;
+        this.image_bytes = null;
     }
 
     public GithubTrending() {
@@ -129,5 +131,13 @@ public class GithubTrending {
 
     public void setBuiltBy(List<GithubBuiltBy> builtBy) {
         this.builtBy = builtBy;
+    }
+
+    public Avatars getImage_bytes() {
+        return image_bytes;
+    }
+
+    public void setImage_bytes(Avatars image_bytes) {
+        this.image_bytes = image_bytes;
     }
 }
