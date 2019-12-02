@@ -130,5 +130,5 @@ public class GithubTrending {
     public void setBuiltBy(List<GithubBuiltBy> builtBy) {
         this.builtBy = builtBy;
     }
-    
+
 }

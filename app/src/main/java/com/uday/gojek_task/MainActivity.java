@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.uday.gojek_task.adapters.RecyclerViewMain;
 import com.uday.gojek_task.models.GithubTrending;
+import com.uday.gojek_task.repo.DbManager;
 import com.uday.gojek_task.viewmodels.MainActivityViewModel;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_retry;
     private RelativeLayout layout_nonetwork;
     List<GithubTrending> trendingList;
+    DbManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
-
+        dbManager = new DbManager(this.getApplicationContext());
         rv = findViewById(R.id.github_recyclerview);
         progressBar = findViewById(R.id.progress_bar);
         swipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
@@ -95,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                 recycleAdapter.notifyDataSetChanged();
                 File cache_dir = getApplicationContext().getCacheDir();
                 boolean deleted = deleteCache(cache_dir);
+                if(deleted)
+                    dbManager.deleteTable();
                 mViewModel.retry();
             }
         });
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 layout_nonetwork.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                mViewModel.getTrendinglist();
+                mViewModel.retry();
             }
         });
 
