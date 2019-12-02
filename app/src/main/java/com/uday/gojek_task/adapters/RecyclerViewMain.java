@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +22,13 @@ import com.uday.gojek_task.models.GithubTrending;
 import com.uday.gojek_task.repo.DbManager;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.List;
 
 public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.RecyclerViewHolder> {
-    List<GithubTrending> trendingList;
-    Context context;
-    LayoutInflater inflater;
-    DbManager dbManager;
+    private List<GithubTrending> trendingList;
+    private Context context;
+    private LayoutInflater inflater;
+    private DbManager dbManager;
 
     public RecyclerViewMain(List<GithubTrending> trendingList, Context context) {
         this.trendingList = trendingList;
@@ -47,8 +45,7 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.github_trending_repo_row,viewGroup,false);
-        RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view);
-        return recyclerViewHolder;
+        return new RecyclerViewHolder(view);
     }
 
     @Override
@@ -77,7 +74,7 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     byte[] imageInByte = baos.toByteArray();
-                    boolean isinserted = dbManager.insertImage(imageUrl, imageInByte);
+                    dbManager.insertImage(imageUrl, imageInByte);
                 }
 
                 @Override
@@ -98,7 +95,7 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
         return trendingList.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView author;
         TextView name;
         ImageView avatar;
@@ -110,7 +107,7 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
         RelativeLayout collapsible_layout;
         RelativeLayout parent_layout;
 
-        public RecyclerViewHolder(@NonNull final View itemView) {
+        private RecyclerViewHolder(@NonNull final View itemView) {
             super(itemView);
             this.author = itemView.findViewById(R.id.github_author);
             this.description = itemView.findViewById(R.id.github_description);
