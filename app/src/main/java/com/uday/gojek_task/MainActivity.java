@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         btn_retry = findViewById(R.id.retry);
         layout_nonetwork = findViewById(R.id.no_network);
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        mViewModel.getTrendinglist(getApplicationContext(),this).observe(this, new Observer<List<GithubTrending>>() {
+        mViewModel.getTrendinglist().observe(this, new Observer<List<GithubTrending>>() {
             @Override
             public void onChanged(@Nullable List<GithubTrending> githubTrendingList) {
                 trendingList = githubTrendingList;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         mViewModel.getShowProgressBar().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
@@ -106,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 layout_nonetwork.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                mViewModel.getTrendinglist(getApplicationContext(), MainActivity.this);
+                mViewModel.getTrendinglist();
             }
         });
 

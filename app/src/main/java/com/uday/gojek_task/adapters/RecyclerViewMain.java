@@ -1,14 +1,9 @@
 package com.uday.gojek_task.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.uday.gojek_task.NetworkDetection;
 import com.uday.gojek_task.R;
 import com.uday.gojek_task.models.GithubTrending;
 
-import java.net.URI;
 import java.util.List;
 
 public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.RecyclerViewHolder> {
@@ -60,29 +51,7 @@ public class RecyclerViewMain extends RecyclerView.Adapter<RecyclerViewMain.Recy
         recyclerViewHolder.language.setText(trendingList.get(i).getLanguage() == null ? "" : trendingList.get(i).getLanguage());
         recyclerViewHolder.stars.setText(trendingList.get(i).getStars() == null ? "" : trendingList.get(i).getStars());
         recyclerViewHolder.forks.setText(trendingList.get(i).getForks() == null ? "" : trendingList.get(i).getForks());
-        byte[] image_bytes = trendingList.get(i).getImage_bytes().getImages();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(image_bytes, 0, image_bytes.length);
-
-        recyclerViewHolder.avatar.setImageBitmap(bitmap);
-
-//        final String image_url = trendingList.get(i).getAvatar();
-//        final ImageView image_holder = recyclerViewHolder.avatar;
-//        Picasso.with(context).load(Uri.parse(image_url))
-//                .fit().centerCrop()
-//                .networkPolicy(NetworkPolicy.OFFLINE)
-//                .into(image_holder, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//                    }
-//
-//                    @Override
-//                    public void onError() {
-//                        Picasso.with(context).load(Uri.parse(image_url))
-//                                .fit().centerCrop()
-//                                .into(image_holder);
-//                    }
-//                });
-
+        Picasso.with(context).load(trendingList.get(i).getAvatar()).into(recyclerViewHolder.avatar);
         boolean is_expanded = trendingList.get(i).isExpanded();
         recyclerViewHolder.collapsible_layout.setVisibility(is_expanded ? View.VISIBLE : View.GONE);
 
