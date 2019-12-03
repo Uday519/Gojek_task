@@ -3,10 +3,12 @@ package com.uday.gojek_task.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
 
 import com.uday.gojek_task.interfaces.Api;
 import com.uday.gojek_task.models.GithubTrending;
+import com.uday.gojek_task.repo.DbManager;
 import com.uday.gojek_task.repo.RetrofitGenerator;
 
 import java.util.List;
@@ -23,8 +25,9 @@ public class MainActivityViewModel extends ViewModel {
     public MutableLiveData<Boolean> show_networkError = new MutableLiveData<>();
 
     private Call<List<GithubTrending>> getlist;
+    private DbManager dbManager;
 
-    public LiveData<List<GithubTrending>> getTrendinglist() {
+    public LiveData<List<GithubTrending>> getTrendinglist(final Context context) {
         if(trendinglist == null){
             showProgressBar.setValue(true);
             trendinglist = new MutableLiveData<>();
@@ -33,6 +36,11 @@ public class MainActivityViewModel extends ViewModel {
             getlist.enqueue(new Callback<List<GithubTrending>>() {
                 @Override
                 public void onResponse(Call<List<GithubTrending>> call, Response<List<GithubTrending>> response) {
+                    if(response.raw().networkResponse() != null){
+                        dbManager = new DbManager(context);
+                        dbManager.deleteTable();
+                    }
+
                     trendinglist.setValue(response.body());
                     showProgressBar.setValue(false);
                 }

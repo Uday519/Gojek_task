@@ -32,9 +32,6 @@ public class GithubTrending {
         this.expanded  = false;
     }
 
-    public GithubTrending() {
-    }
-
     public boolean isExpanded() {
         return expanded;
     }

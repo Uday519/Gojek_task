@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         btn_retry = findViewById(R.id.retry);
         layout_nonetwork = findViewById(R.id.no_network);
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        mViewModel.getTrendinglist().observe(this, new Observer<List<GithubTrending>>() {
+        mViewModel.getTrendinglist(getApplicationContext()).observe(this, new Observer<List<GithubTrending>>() {
             @Override
             public void onChanged(@Nullable List<GithubTrending> githubTrendingList) {
                 trendingList = githubTrendingList;
